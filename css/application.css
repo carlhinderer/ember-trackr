@@ -41,3 +41,10 @@ html, body {
   color: #fff;
   background-color: #080808;
 }
+
+
+/* Tickets */
+.panel-primary > .panel-heading .badge {
+  color: #428bca;
+  background-color: #fff;
+}
