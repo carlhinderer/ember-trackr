@@ -13,12 +13,13 @@ App.ApplicationAdapter = DS.FixtureAdapter;
 module.exports = App;
 
 
-},{"../vendor/ember":11,"../vendor/ember-data":10,"../vendor/handlebars":12,"../vendor/jquery":13}],2:[function(require,module,exports){
+},{"../vendor/ember":12,"../vendor/ember-data":11,"../vendor/handlebars":13,"../vendor/jquery":14}],2:[function(require,module,exports){
 var App = require('./app');
 
 App.Router.map(function() {
   this.resource('tickets', function() {
     this.resource('ticket', { path: ':ticket_id' });
+    this.route('new');
   });
 });
 
@@ -54,6 +55,7 @@ App.TicketController = require('./controllers/ticket_controller');
 App.Ticket = require('./models/ticket');
 App.TicketRoute = require('./routes/ticket_route');
 App.TicketsRoute = require('./routes/tickets_route');
+App.TicketsNewRoute = require('./routes/tickets/new_route');
 App.ApplicationView = require('./views/application_view');
 
 require('./config/routes');
@@ -61,7 +63,7 @@ require('./config/routes');
 module.exports = App;
 
 
-},{"./config/app":1,"./config/routes":2,"./controllers/application_controller":3,"./controllers/ticket_controller":4,"./models/ticket":6,"./routes/ticket_route":7,"./routes/tickets_route":8,"./templates":9,"./views/application_view":14}],6:[function(require,module,exports){
+},{"./config/app":1,"./config/routes":2,"./controllers/application_controller":3,"./controllers/ticket_controller":4,"./models/ticket":6,"./routes/ticket_route":7,"./routes/tickets/new_route":8,"./routes/tickets_route":9,"./templates":10,"./views/application_view":15}],6:[function(require,module,exports){
 var Ticket = DS.Model.extend({
   title: DS.attr('string'),
   description: DS.attr('string'),
@@ -110,6 +112,23 @@ module.exports = TicketRoute;
 
 
 },{}],8:[function(require,module,exports){
+var TicketsNewRoute = Ember.Route.extend({
+  actions: {
+    save: function() {
+      var attrs = this.get('controller').getProperties(
+	'title', 'status', 'description');
+
+      var ticket = this.get('store').createRecord('ticket', attrs);
+      var promise = ticket.save();
+      this.transitionTo('ticket', promise);
+    }
+  }
+});
+
+module.exports = TicketsNewRoute;
+
+
+},{}],9:[function(require,module,exports){
 var TicketsRoute = Ember.Route.extend({
   model: function() {
     return this.get('store').findAll('ticket');
@@ -119,7 +138,7 @@ var TicketsRoute = Ember.Route.extend({
 module.exports = TicketsRoute;
 
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
 Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
@@ -194,33 +213,20 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n        <div class=\"row\">\n          <div class=\"col-md-9\">\n            ");
-  hashContexts = {'value': depth0,'name': depth0,'class': depth0};
-  hashTypes = {'value': "ID",'name': "STRING",'class': "STRING"};
-  options = {hash:{
-    'value': ("title"),
-    'name': ("title"),
-    'class': ("form-control")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || depth0.input),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n          </div>\n          <div class=\"col-md-3\">\n            ");
-  hashContexts = {'selectionBinding': depth0,'contentBinding': depth0,'name': depth0,'class': depth0};
-  hashTypes = {'selectionBinding': "STRING",'contentBinding': "STRING",'name': "STRING",'class': "STRING"};
-  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.Select", {hash:{
-    'selectionBinding': ("status"),
-    'contentBinding': ("statuses"),
-    'name': ("status"),
-    'class': ("pull-right")
-  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n          </div>   \n        </div>\n      ");
+  var buffer = '', stack1, hashTypes, hashContexts, options;
+  data.buffer.push("\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.partial || depth0.partial),stack1 ? stack1.call(depth0, "tickets/form", options) : helperMissing.call(depth0, "partial", "tickets/form", options))));
+  data.buffer.push("      \n  ");
   return buffer;
   }
 
 function program3(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n        <span class=\"badge pull-right\">");
+  data.buffer.push("\n    <div class=\"panel-heading\">\n      <h3 class=\"panel-title\">\n        <span class=\"badge pull-right\">");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "status", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -228,76 +234,47 @@ function program3(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "title", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n      ");
+  data.buffer.push("\n      </h3>\n    </div>\n  ");
   return buffer;
   }
 
 function program5(depth0,data) {
   
-  var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n      ");
-  hashContexts = {'value': depth0,'name': depth0,'rows': depth0,'class': depth0};
-  hashTypes = {'value': "ID",'name': "STRING",'rows': "STRING",'class': "STRING"};
-  options = {hash:{
-    'value': ("description"),
-    'name': ("description"),
-    'rows': ("12"),
-    'class': ("form-control")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || depth0.textarea),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\n    ");
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "done", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"btn btn-default\">Done</button>\n  ");
   return buffer;
   }
 
 function program7(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "description", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n    ");
-  return buffer;
-  }
-
-function program9(depth0,data) {
-  
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      <button ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "done", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"btn btn-default\">Done</button>\n    ");
-  return buffer;
-  }
-
-function program11(depth0,data) {
-  
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      <button ");
+  data.buffer.push("\n    <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "edit", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"btn btn-default\">Edit</button>\n    ");
+  data.buffer.push(" class=\"btn btn-default\">Edit</button>\n  ");
   return buffer;
   }
 
-  data.buffer.push("<div class=\"panel panel-primary\">\n\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">\n      ");
+  data.buffer.push("<div class=\"panel panel-primary\"> \n  ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "isEditing", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n    </h3>\n  </div>\n\n  <div class=\"panel-body\">\n    ");
+  data.buffer.push("\n</div>\n\n<div class=\"panel-body\">\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "description", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n</div>\n\n<div class=\"panel-footer\">\n  ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "isEditing", {hash:{},inverse:self.program(7, program7, data),fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n  </div>\n\n  <div class=\"panel-footer\">\n    ");
-  hashTypes = {};
-  hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isEditing", {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n  </div>\n\n</div>\n");
+  data.buffer.push("\n</div>\n");
   return buffer;
   
 });
@@ -305,7 +282,7 @@ function program11(depth0,data) {
 Ember.TEMPLATES['tickets'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+  var buffer = '', stack1, stack2, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -336,16 +313,69 @@ function program2(depth0,data) {
   return buffer;
   }
 
+function program4(depth0,data) {
+  
+  
+  data.buffer.push("\n      New Ticket\n    ");
+  }
+
   data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4\">\n    <nav class=\"list-group\">\n      ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n    </nav>\n  </div>\n  <div class=\"col-md-8\">\n    ");
+  data.buffer.push("\n    </nav>\n    ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  options = {hash:{
+    'class': ("btn btn-primary btn-block")
+  },inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || depth0['link-to']),stack1 ? stack1.call(depth0, "tickets.new", options) : helperMissing.call(depth0, "link-to", "tickets.new", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\n  </div>\n  <div class=\"col-md-8\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\n  </div>\n</div>\n");
+  return buffer;
+  
+});
+
+Ember.TEMPLATES['tickets/_form'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div class=\"panel-heading\">\n  <h3 class=\"panel-title\">\n    <div class=\"row\">\n      <div class=\"col-md-9\">\n        ");
+  hashContexts = {'value': depth0,'name': depth0,'class': depth0};
+  hashTypes = {'value': "ID",'name': "STRING",'class': "STRING"};
+  options = {hash:{
+    'value': ("title"),
+    'name': ("title"),
+    'class': ("form-control")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || depth0.input),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n      </div>\n      <div class=\"col-md-3\">\n        ");
+  hashContexts = {'selectionBinding': depth0,'contentBinding': depth0,'name': depth0,'class': depth0};
+  hashTypes = {'selectionBinding': "STRING",'contentBinding': "STRING",'name': "STRING",'class': "STRING"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.Select", {hash:{
+    'selectionBinding': ("status"),
+    'contentBinding': ("statuses"),
+    'name': ("status"),
+    'class': ("pull-right")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n      </div>   \n    </div>\n  </h3>\n</div>\n\n<div class=\"panel-body\">\n  ");
+  hashContexts = {'value': depth0,'name': depth0,'rows': depth0,'class': depth0};
+  hashTypes = {'value': "ID",'name': "STRING",'rows': "STRING",'class': "STRING"};
+  options = {hash:{
+    'value': ("description"),
+    'name': ("description"),
+    'rows': ("12"),
+    'class': ("form-control")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || depth0.textarea),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
+  data.buffer.push("\n</div>\n");
   return buffer;
   
 });
@@ -360,9 +390,29 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 });
 
+Ember.TEMPLATES['tickets/new'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-},{}],10:[function(require,module,exports){
+  data.buffer.push("<div class=\"panel panel-primary\">\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.partial || depth0.partial),stack1 ? stack1.call(depth0, "tickets/form", options) : helperMissing.call(depth0, "partial", "tickets/form", options))));
+  data.buffer.push("\n  <div class=\"panel-footer\">\n    <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "save", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"btn btn-primary pull-right\">Save</button>\n  </div>\n</div>\n");
+  return buffer;
+  
+});
+
+
+
+},{}],11:[function(require,module,exports){
 /*!
  * @overview  Ember Data
  * @copyright Copyright 2011-2014 Tilde Inc. and contributors.
@@ -12416,7 +12466,7 @@ define("ember-inflector/lib/system/string",
   });
 global.DS = requireModule('ember-data/lib/main')['default'];
 }(Ember.lookup));
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 // Version: v1.0.0
 // Last commit: e2ea0cf (2013-08-31 23:47:39 -0700)
 
@@ -48888,7 +48938,7 @@ Ember.State = generateRemovedClass("Ember.State");
 
 })();
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*
 
 Copyright (C) 2011 by Yehuda Katz
@@ -49252,7 +49302,7 @@ Handlebars.template = Handlebars.VM.template;
 })(Handlebars);
 ;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.9.1
  * http://jquery.com/
@@ -58850,7 +58900,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 }
 
 })( window );
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var ApplicationView = Ember.View.extend({
   classNames: ['application']
 });
