@@ -25,3 +25,16 @@ var User = DS.Model.extend({
 
 module.exports = User;
 
+User.FIXTURES = [
+{
+  id: 1,
+  firstName: 'Yehuda',
+  lastName: 'Katz',
+  email: 'wycats@gmail.com'
+},
+{
+  id: 2,
+  firstName: 'Tom',
+  lastName: 'Dale',
+  email: 'tom@tomdale.com'
+}];

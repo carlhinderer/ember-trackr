@@ -13,7 +13,7 @@ App.ApplicationAdapter = DS.FixtureAdapter;
 module.exports = App;
 
 
-},{"../vendor/ember":14,"../vendor/ember-data":13,"../vendor/handlebars":15,"../vendor/jquery":16}],2:[function(require,module,exports){
+},{"../vendor/ember":15,"../vendor/ember-data":14,"../vendor/handlebars":16,"../vendor/jquery":17}],2:[function(require,module,exports){
 var App = require('./app');
 
 App.Router.map(function() {
@@ -21,6 +21,8 @@ App.Router.map(function() {
     this.resource('ticket', { path: ':ticket_id' });
     this.route('new');
   });
+
+  this.resource('users');
 });
 
 
@@ -65,6 +67,7 @@ App.Ticket = require('./models/ticket');
 App.User = require('./models/user');
 App.TicketRoute = require('./routes/ticket_route');
 App.TicketsRoute = require('./routes/tickets_route');
+App.UsersRoute = require('./routes/users_route');
 App.TicketsNewRoute = require('./routes/tickets/new_route');
 App.ApplicationView = require('./views/application_view');
 App.EmberTextField = require('./views/ember/text_field');
@@ -74,7 +77,7 @@ require('./config/routes');
 module.exports = App;
 
 
-},{"./config/app":1,"./config/routes":2,"./controllers/application_controller":3,"./controllers/ticket_controller":4,"./controllers/tickets/new_controller":5,"./models/ticket":7,"./models/user":8,"./routes/ticket_route":9,"./routes/tickets/new_route":10,"./routes/tickets_route":11,"./templates":12,"./views/application_view":18,"./views/ember/text_field":19}],7:[function(require,module,exports){
+},{"./config/app":1,"./config/routes":2,"./controllers/application_controller":3,"./controllers/ticket_controller":4,"./controllers/tickets/new_controller":5,"./models/ticket":7,"./models/user":8,"./routes/ticket_route":9,"./routes/tickets/new_route":10,"./routes/tickets_route":11,"./routes/users_route":12,"./templates":13,"./views/application_view":19,"./views/ember/text_field":20}],7:[function(require,module,exports){
 var Ticket = DS.Model.extend({
   title: DS.attr('string'),
   description: DS.attr('string'),
@@ -133,8 +136,21 @@ var User = DS.Model.extend({
 
 module.exports = User;
 
+User.FIXTURES = [
+{
+  id: 1,
+  firstName: 'Yehuda',
+  lastName: 'Katz',
+  email: 'wycats@gmail.com'
+},
+{
+  id: 2,
+  firstName: 'Tom',
+  lastName: 'Dale',
+  email: 'tom@tomdale.com'
+}];
 
-},{"../vendor/md5":17}],9:[function(require,module,exports){
+},{"../vendor/md5":18}],9:[function(require,module,exports){
 var TicketRoute = Ember.Route.extend({
   actions: {
     edit: function() {
@@ -187,6 +203,15 @@ module.exports = TicketsRoute;
 
 
 },{}],12:[function(require,module,exports){
+var UsersRoute = Ember.Route.extend({
+  model: function() {
+    return this.get('store').findAll('user');
+  }
+});
+
+module.exports = UsersRoute;
+
+},{}],13:[function(require,module,exports){
 
 Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
@@ -211,6 +236,12 @@ function program5(depth0,data) {
   data.buffer.push("Tickets");
   }
 
+function program7(depth0,data) {
+  
+  
+  data.buffer.push("Users");
+  }
+
   data.buffer.push("<div id=\"wrap\">\n  <header class=\"navbar navbar-inverse navbar-fixed-top\">\n    <div class=\"container\">\n      <div class=\"navbar-header\">\n        ");
   hashContexts = {'class': depth0};
   hashTypes = {'class': "STRING"};
@@ -230,6 +261,12 @@ function program5(depth0,data) {
   hashContexts = {};
   options = {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || depth0['link-to']),stack1 ? stack1.call(depth0, "tickets", options) : helperMissing.call(depth0, "link-to", "tickets", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("</li>\n        <li>");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},inverse:self.noop,fn:self.program(7, program7, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || depth0['link-to']),stack1 ? stack1.call(depth0, "users", options) : helperMissing.call(depth0, "link-to", "users", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("</li>\n      </ul>\n    </div>\n  </header>\n\n  <div role=\"main\" class=\"container\">\n    ");
   hashTypes = {};
@@ -389,6 +426,36 @@ function program4(depth0,data) {
   
 });
 
+Ember.TEMPLATES['users'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n        <a>");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "displayName", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</a>\n      ");
+  return buffer;
+  }
+
+  data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4\">\n    <nav class=\"list-group\">\n      ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n    </nav>\n  </div>\n  <div class=\"col-md-8\">\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n  </div>\n</div>\n");
+  return buffer;
+  
+});
+
 Ember.TEMPLATES['tickets/_form'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
@@ -467,7 +534,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * @overview  Ember Data
  * @copyright Copyright 2011-2014 Tilde Inc. and contributors.
@@ -12521,7 +12588,7 @@ define("ember-inflector/lib/system/string",
   });
 global.DS = requireModule('ember-data/lib/main')['default'];
 }(Ember.lookup));
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // Version: v1.0.0
 // Last commit: e2ea0cf (2013-08-31 23:47:39 -0700)
 
@@ -48993,7 +49060,7 @@ Ember.State = generateRemovedClass("Ember.State");
 
 })();
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*
 
 Copyright (C) 2011 by Yehuda Katz
@@ -49357,7 +49424,7 @@ Handlebars.template = Handlebars.VM.template;
 })(Handlebars);
 ;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.9.1
  * http://jquery.com/
@@ -58955,7 +59022,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 }
 
 })( window );
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
  * JavaScript MD5 1.0.1
  * https://github.com/blueimp/JavaScript-MD5
@@ -59231,7 +59298,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     }
 }(this));
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var ApplicationView = Ember.View.extend({
   classNames: ['application']
 });
@@ -59239,7 +59306,7 @@ var ApplicationView = Ember.View.extend({
 module.exports = ApplicationView;
 
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 Ember.TextField.reopen({
   attributeBindings: ['autofocus']
 });
