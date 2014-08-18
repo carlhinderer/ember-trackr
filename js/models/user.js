@@ -36,5 +36,5 @@ User.FIXTURES = [
   id: 2,
   firstName: 'Tom',
   lastName: 'Dale',
-  email: 'tom@tomdale.com'
+  email: 'tom@tomdale.net'
 }];
