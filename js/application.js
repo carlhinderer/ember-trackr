@@ -23,7 +23,7 @@ var GravatarImageComponent = Ember.Component.extend({
 
 module.exports = GravatarImageComponent;
 
-},{"../vendor/md5":20}],2:[function(require,module,exports){
+},{"../vendor/md5":21}],2:[function(require,module,exports){
 var MailToComponent = Ember.Component.extend({
   tagName: 'a',
   attributeBindings: ['href'],
@@ -51,7 +51,7 @@ App.ApplicationAdapter = DS.FixtureAdapter;
 module.exports = App;
 
 
-},{"../vendor/ember":17,"../vendor/ember-data":16,"../vendor/handlebars":18,"../vendor/jquery":19}],4:[function(require,module,exports){
+},{"../vendor/ember":18,"../vendor/ember-data":17,"../vendor/handlebars":19,"../vendor/jquery":20}],4:[function(require,module,exports){
 var App = require('./app');
 
 App.Router.map(function() {
@@ -109,6 +109,7 @@ App.Ticket = require('./models/ticket');
 App.User = require('./models/user');
 App.TicketRoute = require('./routes/ticket_route');
 App.TicketsRoute = require('./routes/tickets_route');
+App.UserRoute = require('./routes/user_route');
 App.UsersRoute = require('./routes/users_route');
 App.TicketsNewRoute = require('./routes/tickets/new_route');
 App.ApplicationView = require('./views/application_view');
@@ -119,7 +120,7 @@ require('./config/routes');
 module.exports = App;
 
 
-},{"./components/gravatar_image_component":1,"./components/mail_to_component":2,"./config/app":3,"./config/routes":4,"./controllers/application_controller":5,"./controllers/ticket_controller":6,"./controllers/tickets/new_controller":7,"./models/ticket":9,"./models/user":10,"./routes/ticket_route":11,"./routes/tickets/new_route":12,"./routes/tickets_route":13,"./routes/users_route":14,"./templates":15,"./views/application_view":21,"./views/ember/text_field":22}],9:[function(require,module,exports){
+},{"./components/gravatar_image_component":1,"./components/mail_to_component":2,"./config/app":3,"./config/routes":4,"./controllers/application_controller":5,"./controllers/ticket_controller":6,"./controllers/tickets/new_controller":7,"./models/ticket":9,"./models/user":10,"./routes/ticket_route":11,"./routes/tickets/new_route":12,"./routes/tickets_route":13,"./routes/user_route":14,"./routes/users_route":15,"./templates":16,"./views/application_view":22,"./views/ember/text_field":23}],9:[function(require,module,exports){
 var Ticket = DS.Model.extend({
   title: DS.attr('string'),
   description: DS.attr('string'),
@@ -179,7 +180,7 @@ User.FIXTURES = [
   email: 'tom@tomdale.net'
 }];
 
-},{"../vendor/md5":20}],11:[function(require,module,exports){
+},{"../vendor/md5":21}],11:[function(require,module,exports){
 var TicketRoute = Ember.Route.extend({
   actions: {
     edit: function() {
@@ -232,6 +233,23 @@ module.exports = TicketsRoute;
 
 
 },{}],14:[function(require,module,exports){
+var UserRoute = Ember.Route.extend({
+  actions: {
+    edit: function() {
+      this.set('controller.isEditing', true);
+    },
+
+    done: function() {
+      this.set('controller.isEditing', false);
+      this.modelFor('user').save();
+    }
+  }
+});
+
+module.exports = UserRoute;
+
+
+},{}],15:[function(require,module,exports){
 var UsersRoute = Ember.Route.extend({
   model: function() {
     return this.get('store').findAll('user');
@@ -240,7 +258,7 @@ var UsersRoute = Ember.Route.extend({
 
 module.exports = UsersRoute;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
@@ -458,24 +476,28 @@ function program4(depth0,data) {
 Ember.TEMPLATES['user'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, stack2, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      ");
+  var buffer = '', stack1, hashTypes, hashContexts, options;
+  data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "email", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n    ");
+  options = {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.partial || depth0.partial),stack1 ? stack1.call(depth0, "users/form", options) : helperMissing.call(depth0, "partial", "users/form", options))));
+  data.buffer.push("\n  ");
   return buffer;
   }
 
-  data.buffer.push("<div class=\"panel panel-primary\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">");
+function program3(depth0,data) {
+  
+  var buffer = '', stack1, stack2, hashTypes, hashContexts, options;
+  data.buffer.push("\n    <div class=\"panel-heading\">\n      <h3 class=\"panel-title\">");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "displayName", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</h3>\n  </div>\n  \n  <div class=\"panel-body\">\n    ");
+  data.buffer.push("</h3>\n    </div>\n  \n    <div class=\"panel-body\">\n      ");
   hashContexts = {'email': depth0,'alt': depth0,'size': depth0};
   hashTypes = {'email': "ID",'alt': "ID",'size': "INTEGER"};
   options = {hash:{
@@ -484,18 +506,60 @@ function program1(depth0,data) {
     'size': (200)
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['gravatar-image'] || depth0['gravatar-image']),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "gravatar-image", options))));
-  data.buffer.push("\n    <dl>\n      <dt>Email</dt>\n      <dd>");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "email", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</dd>\n    </dl>\n    ");
+  data.buffer.push("\n      <dl>\n        <dt>Email</dt>\n        <dd>\n          ");
   hashContexts = {'email': depth0};
   hashTypes = {'email': "ID"};
   options = {hash:{
     'email': ("email")
-  },inverse:self.noop,fn:self.program(1, program1, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  },inverse:self.noop,fn:self.program(4, program4, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['mail-to'] || depth0['mail-to']),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "mail-to", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\n        </dd>\n      </dl>\n    </div>\n  ");
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n            ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "email", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n          ");
+  return buffer;
+  }
+
+function program6(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "done", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"btn btn-default\">Done</button>\n    ");
+  return buffer;
+  }
+
+function program8(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "edit", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"btn btn-default\">Edit</button>\n    ");
+  return buffer;
+  }
+
+  data.buffer.push("<div class=\"panel panel-primary\">\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "isEditing", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n\n  <div class=\"panel-footer\">\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "isEditing", {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  </div>\n</div>\n");
   return buffer;
   
@@ -541,6 +605,57 @@ function program2(depth0,data) {
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\n  </div>\n</div>\n");
+  return buffer;
+  
+});
+
+Ember.TEMPLATES['users/_form'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div class=\"panel-heading\">\n  <h3 class=\"panel-title\">\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        ");
+  hashContexts = {'value': depth0,'name': depth0,'placeholder': depth0,'autofocus': depth0,'class': depth0};
+  hashTypes = {'value': "ID",'name': "STRING",'placeholder': "STRING",'autofocus': "BOOLEAN",'class': "STRING"};
+  options = {hash:{
+    'value': ("firstName"),
+    'name': ("firstName"),
+    'placeholder': ("First name"),
+    'autofocus': (true),
+    'class': ("form-control")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || depth0.input),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n      </div>\n      <div class=\"col-md-6\">\n        ");
+  hashContexts = {'value': depth0,'name': depth0,'placeholder': depth0,'class': depth0};
+  hashTypes = {'value': "ID",'name': "STRING",'placeholder': "STRING",'class': "STRING"};
+  options = {hash:{
+    'value': ("lastName"),
+    'name': ("lastName"),
+    'placeholder': ("Last name"),
+    'class': ("form-control")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || depth0.input),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n      </div>\n    </div>\n  </h3>\n</div>\n\n<div class=\"panel-body\">\n  ");
+  hashContexts = {'email': depth0,'alt': depth0,'size': depth0};
+  hashTypes = {'email': "ID",'alt': "ID",'size': "INTEGER"};
+  options = {hash:{
+    'email': ("email"),
+    'alt': ("displayName"),
+    'size': (200)
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['gravatar-image'] || depth0['gravatar-image']),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "gravatar-image", options))));
+  data.buffer.push("\n  <dl>\n    <dt>Email</dt>\n    <dd>\n      ");
+  hashContexts = {'value': depth0,'name': depth0,'placeholder': depth0,'class': depth0};
+  hashTypes = {'value': "ID",'name': "STRING",'placeholder': "STRING",'class': "STRING"};
+  options = {hash:{
+    'value': ("email"),
+    'name': ("email"),
+    'placeholder': ("Email"),
+    'class': ("form-control")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || depth0.input),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n    </dd>\n  </dl>\n</div>\n");
   return buffer;
   
 });
@@ -647,7 +762,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * @overview  Ember Data
  * @copyright Copyright 2011-2014 Tilde Inc. and contributors.
@@ -12701,7 +12816,7 @@ define("ember-inflector/lib/system/string",
   });
 global.DS = requireModule('ember-data/lib/main')['default'];
 }(Ember.lookup));
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Version: v1.0.0
 // Last commit: e2ea0cf (2013-08-31 23:47:39 -0700)
 
@@ -49173,7 +49288,7 @@ Ember.State = generateRemovedClass("Ember.State");
 
 })();
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*
 
 Copyright (C) 2011 by Yehuda Katz
@@ -49537,7 +49652,7 @@ Handlebars.template = Handlebars.VM.template;
 })(Handlebars);
 ;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.9.1
  * http://jquery.com/
@@ -59135,7 +59250,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 }
 
 })( window );
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*
  * JavaScript MD5 1.0.1
  * https://github.com/blueimp/JavaScript-MD5
@@ -59411,7 +59526,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     }
 }(this));
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var ApplicationView = Ember.View.extend({
   classNames: ['application']
 });
@@ -59419,7 +59534,7 @@ var ApplicationView = Ember.View.extend({
 module.exports = ApplicationView;
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 Ember.TextField.reopen({
   attributeBindings: ['autofocus']
 });
